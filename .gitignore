@@ -1,1 +1,11 @@
+__pycache__/
+*.py[cod]
+*.sqlite3
+.env
+.venv/
+venv/
+build/
+dist/
+staticfiles/
+.git/
 
