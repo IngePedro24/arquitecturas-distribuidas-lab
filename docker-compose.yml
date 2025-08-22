@@ -1,3 +1,9 @@
+# 1) Comprueba que estás en la carpeta que contiene Dockerfile y docker-compose.yml
+pwd
+ls -l
+
+# 2) Sobrescribe docker-compose.yml con un archivo válido (sin volumes:)
+cat > docker-compose.yml <<'YAML'
 services:
   app:
     build: .
@@ -6,10 +12,21 @@ services:
       - "8080:8000"
     environment:
       - DJANGO_SETTINGS_MODULE=gestion_emprendedores.settings
-    # Si no usas volúmenes, NO pongas 'volumes:' vacío.
-    # healthcheck opcional:
     healthcheck:
       test: ["CMD-SHELL","python - <<'PY'\nimport urllib.request, sys\n\ntry:\n    urllib.request.urlopen('http://localhost:8000/health', timeout=3)\nexcept Exception:\n    sys.exit(1)\nPY"]
       interval: 30s
       timeout: 5s
       retries: 5
+YAML
+
+# 3) Muestra lo que quedó
+echo "===== docker-compose.yml ====="
+sed -n '1,120p' docker-compose.yml
+
+# 4) Reconstruye y levanta
+docker compose down -v
+docker compose up -d --build
+
+# 5) Estado y logs
+docker compose ps
+docker compose logs -f app
