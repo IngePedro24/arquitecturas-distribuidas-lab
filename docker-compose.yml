@@ -1,1 +1,17 @@
+services:
+  app:
+    build: .
+    container_name: app
+    ports:
+      - "8080:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=gestion_emprendedores.settings
+    volumes:
+      # Solo si quieres persistir la base SQLite localmente (opcional)
+      # - ./db.sqlite3:/app/db.sqlite3
+    healthcheck:
+      test: ["CMD-SHELL","python - <<'PY'\nimport urllib.request, sys\n\ntry:\n    urllib.request.urlopen('http://localhost:8000/health', timeout=3)\nexcept Exception:\n    sys.exit(1)\nPY"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
 
