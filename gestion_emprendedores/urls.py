@@ -19,6 +19,11 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from emprendedores.views import EmprendedorViewSet
 from django.views.generic import RedirectView
+from django.http import JsonResponse
+from django.urls import path, include
+
+def health(_request):
+    return JsonResponse({"status": "ok"})
 
 router = DefaultRouter()
 router.register(r'emprendedores', EmprendedorViewSet)
@@ -27,4 +32,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('', RedirectView.as_view(url='/admin/', permanent=True), name='index'),
+    path("health", health),
 ]
