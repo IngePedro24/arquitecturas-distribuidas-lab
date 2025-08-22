@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>{{ evento.nombre }}</h1>
+    <p>{{ evento.descripcion }}</p>
+    <p>Fecha: {{ evento.fecha }}</p>
+    <p>Lugar: {{ evento.lugar }}</p>
+    
+    <h2>Inscribir Emprendedor</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Inscribir</button>
+    </form>
+
+    <h2>Emprendedores Inscritos</h2>
+    <ul>
+    {% for inscripcion in inscripciones %}
+        <li>{{ inscripcion.emprendedor.nombre }}</li>
+    {% empty %}
+        <li>No hay emprendedores inscritos aún.</li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}
