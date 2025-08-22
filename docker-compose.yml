@@ -6,9 +6,8 @@ services:
       - "8080:8000"
     environment:
       - DJANGO_SETTINGS_MODULE=gestion_emprendedores.settings
-    volumes:
-      # 👉 si no necesitas persistencia de la base de datos, comenta esta línea
-      # - ./db.sqlite3:/app/db.sqlite3
+    # Si no usas volúmenes, NO pongas 'volumes:' vacío.
+    # healthcheck opcional:
     healthcheck:
       test: ["CMD-SHELL","python - <<'PY'\nimport urllib.request, sys\n\ntry:\n    urllib.request.urlopen('http://localhost:8000/health', timeout=3)\nexcept Exception:\n    sys.exit(1)\nPY"]
       interval: 30s
