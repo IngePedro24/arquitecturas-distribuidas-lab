@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Lista de Emprendedores</h2>
+    <a href="{% url 'exportar_excel' 'emprendedores' %}" class="btn btn-primary mb-3">Exportar a Excel</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Cédula</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for emprendedor in emprendedores %}
+            <tr>
+                <td>{{ emprendedor.primer_nombre }}</td>
+                <td>{{ emprendedor.primer_apellido }}</td>
+                <td>{{ emprendedor.cedula }}</td>
+                <td>{{ emprendedor.telefono }}</td>
+                <td>
+                    <a href="{% url 'detalle_emprendedor' emprendedor.id %}" class="btn btn-sm btn-info">Ver detalles</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No hay emprendedores registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
